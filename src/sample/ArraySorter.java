@@ -1,24 +1,26 @@
 package sample;
 
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import java.util.Arrays;
 
 public class ArraySorter {
 
+    public String[] array;
 
-
-    public ArraySorter(){
-
+    public ArraySorter(String[] ogArray){
+        array = ogArray;
     }
 
 
     public static void main(String[] args)
     {
         String[] foo = new String[10];
-        foo[0] = "Lenin, Vladimir dasklgh asdklhsdkla 124124";
+        foo[0] = "Lenin, Vladimir dasklgh asdklhsdkla";
         foo[1] = "Stalin, Joseph dasklgh asdklh";
         foo[2] = "Castro, Fidel dasklgh asdklh";
-        foo[3] = "REE, KREE dasklgh asdklh";
+        foo[3] = "REE, bad dasklgh asdklh";
         foo[4] = "Ww, ah dasklgh asdklh";
         foo[5] = "As, Fas dasklgh asdklh";
         foo[6] = "Ne, Ko dasklgh asdklh";
@@ -26,8 +28,6 @@ public class ArraySorter {
         foo[8] = "He, Ho dasklgh asdklh";
         foo[9] = "Yo, Bro dasklgh asdklh";
 
-        GetOrderedNames(foo);
-        PrintContent(foo);;
     }
 
 
@@ -42,9 +42,6 @@ public class ArraySorter {
     {
         Arrays.sort(newArray);
 
-        newArray = FirstLast(newArray);
-
-
         return newArray;
     }
 
@@ -53,18 +50,27 @@ public class ArraySorter {
         String[] finalArray = new String[fArray.length];
 
         for(int i = 0; i < fArray.length; i++){
-            String toFlip = fArray[i];
-            int place = toFlip.indexOf(",");
-            String last = toFlip.substring(0, place - 1);
-
-            int stop = toFlip.indexOf(" ", place + 1);
-            String first = toFlip.substring(place + 1, stop);
 
 
+         String toFlip = fArray[i];
+         int commaPlace = toFlip.indexOf(",");
+         String last = toFlip.substring(0,commaPlace);
+         int secondStop = toFlip.indexOf(" ", commaPlace+2);
+         String first = toFlip.substring(commaPlace+2, secondStop);
+         String firstLast = first + ", " + last;
 
-            finalArray[i] = first + ", " + last;
+         finalArray[i] = firstLast;
+
 
         }
+        return finalArray;
+    }
+
+
+    public static String[] getFinalFromStart(String[] startWithThis){
+        GetOrderedNames(startWithThis);
+
+        String[] finalArray = FirstLast(startWithThis);
         return finalArray;
     }
 
