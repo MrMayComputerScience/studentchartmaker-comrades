@@ -23,6 +23,16 @@ public class InputReader {
                 list.add(line);
             }
         }
+        if(list.size() == 1) {
+            int i = -1;
+            try {
+                i = Integer.parseInt(list.get(0).trim());
+            } catch(Exception e) { }
+
+            if(i > -1) {
+                return new String[i];
+            }
+        }
         return list.toArray(new String[list.size()]);
     }
 
