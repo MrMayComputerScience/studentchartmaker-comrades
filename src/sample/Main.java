@@ -45,7 +45,8 @@ public class Main extends Application {
     }
     public void removeThingIDontKnow()
     {
-        System.out.println("seize the means of procreation");
+        int i = tasks.indexOf(listView.getSelectionModel().getSelectedItem());
+        tasks.remove(i);
     }
     public void doThingIDontKnow()
     {
