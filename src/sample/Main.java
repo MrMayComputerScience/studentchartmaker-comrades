@@ -15,6 +15,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
@@ -104,28 +106,44 @@ public class Main extends Application {
     {
         DataStore ds = new DataStore();
 
-        for(String dir : listView.getItems()) {
-            File f = new File(dir);
-            System.out.println("Directory - " + dir);
+        try {
+            for(String dir : listView.getItems()) {
+                File f = new File(dir);
+                System.out.println("Directory - " + dir);
 
-            String header = InputReader.getHeader(dir);
-            String[] names = InputReader.getNames(dir);
-            String[] columns;
+                String header = InputReader.getHeader(dir);
+                String[] names = InputReader.getNames(dir);
+                String[] columns;
 
-            try {
-                columns = InputReader.getColumns(dir);
-            } catch (Exception e) {
-                columns = new String[colmap.get(f)];
-                for (int i = 0; i < columns.length; i++) {
-                    columns[i] = " ";
+                try {
+                    columns = InputReader.getColumns(dir);
+                } catch (Exception e) {
+                    columns = new String[colmap.get(f)];
+                    for (int i = 0; i < columns.length; i++) {
+                        columns[i] = " ";
+                    }
                 }
+
+                names = ArraySorter.getFinalFromStart(names);
+                ds.tables.add(new Table(header, columns, names));
             }
 
-            names = ArraySorter.getFinalFromStart(names);
-            ds.tables.add(new Table(header, columns, names));
-        }
+            Htmlinator.output(ds);
 
-        Htmlinator.output(ds);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Operation Complete");
+            alert.setHeaderText("The operation was completed successfully.");
+            alert.setContentText("You will find the output files in the output folder.");
+            alert.showAndWait();
+        } catch(Exception e) {
+            e.printStackTrace();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Operation Error");
+            alert.setHeaderText("The operation failed.");
+            alert.setContentText("Errors are listed below\n\n" + e.getMessage());
+            alert.showAndWait();
+        }
     }
 }
 
