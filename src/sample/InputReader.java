@@ -1,6 +1,7 @@
 package sample;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -9,14 +10,21 @@ import java.util.Scanner;
 public class InputReader {
 
     public static String getHeader(String folder) {
-        Scanner s = new Scanner(folder + "/header.txt");
+        try {
+        Scanner s = new Scanner(new File(folder + "\\header.txt"));
         return s.nextLine().trim();
+        }
+            catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static String[] getColumns(String folder) {
-        Scanner s = new Scanner(folder + "/columns.txt");
+        try {
+        Scanner s = new Scanner(new File(folder + "\\columns.txt"));
         List<String> list = new ArrayList<>();
-        while(s.hasNext()) {
+        while(s.hasNextLine()) {
             String line = s.nextLine();
             line = line.trim();
             if(!line.equals("")) {
@@ -34,18 +42,30 @@ public class InputReader {
             }
         }
         return list.toArray(new String[list.size()]);
+        }
+            catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static String[] getNames(String folder) {
-        Scanner s = new Scanner(folder + "/names.txt");
-        List<String> list = new ArrayList<>();
-        while(s.hasNext()) {
-            String line = s.nextLine();
-            line = line.trim();
-            if(!line.equals("")) {
-                list.add(line);
+        try {
+            Scanner s = new Scanner(new File(folder + "\\names.txt"));
+            List<String> list = new ArrayList<>();
+            while (s.hasNextLine()) {
+                String line = s.nextLine();
+                line = line.trim();
+                if (!line.equals("")) {
+                    list.add(line);
+                    System.out.println(line);
+                }
             }
+            return list.toArray(new String[list.size()]);
         }
-        return list.toArray(new String[list.size()]);
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

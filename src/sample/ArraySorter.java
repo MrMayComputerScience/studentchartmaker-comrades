@@ -50,18 +50,17 @@ public class ArraySorter {
         String[] finalArray = new String[fArray.length];
 
         for(int i = 0; i < fArray.length; i++){
+            System.out.println(i);
 
+            String toFlip = fArray[i];
+            toFlip = toFlip.replace("\t", " ");
+            int commaPlace = toFlip.indexOf(",");
+            String last = toFlip.substring(0,commaPlace);
+            int secondStop = toFlip.indexOf(" ", commaPlace+2);
+            String first = toFlip.substring(commaPlace+2, secondStop);
+            String firstLast = first + ", " + last;
 
-         String toFlip = fArray[i];
-         int commaPlace = toFlip.indexOf(",");
-         String last = toFlip.substring(0,commaPlace);
-         int secondStop = toFlip.indexOf(" ", commaPlace+2);
-         String first = toFlip.substring(commaPlace+2, secondStop);
-         String firstLast = first + ", " + last;
-
-         finalArray[i] = firstLast;
-
-
+            finalArray[i] = firstLast.trim();
         }
         return finalArray;
     }
@@ -69,10 +68,6 @@ public class ArraySorter {
 
     public static String[] getFinalFromStart(String[] startWithThis){
         GetOrderedNames(startWithThis);
-
-        String[] finalArray = FirstLast(startWithThis);
-        return finalArray;
+        return FirstLast(startWithThis);
     }
-
-
 }
